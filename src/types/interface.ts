@@ -10,8 +10,9 @@ export interface PeopleState {
   people: Person[];
   loading: boolean;
   error: string | null;
-  currentPage: number;
-  totalCount: number;
+  count: number;
+  next: string | null;
+  previous: string | null;
 }
 
 export interface Film {

@@ -1,4 +1,4 @@
-import { Alert, List, Spin } from "antd";
+import { Alert, Spin, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFilmsAsync } from "../utils/api";
 import type { RootState, AppDispatch } from "../redux/store";
@@ -13,6 +13,24 @@ export function Film() {
     dispatch(fetchFilmsAsync());
   }, [dispatch]);
 
+  const columns = [
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Director',
+      dataIndex: 'director',
+      key: 'director',
+    },
+    {
+      title: 'Release Date',
+      dataIndex: 'release_date',
+      key: 'release_date',
+    },
+  ]
+
   return(
     <div>
       {loading ? 
@@ -21,14 +39,12 @@ export function Film() {
       ) : error ? (
         <Alert message=""description={error} type="error" showIcon />
       ) : (
-        <List
+        <Table 
           bordered
           dataSource={films}
-          renderItem={(film) => (
-            <List.Item>
-              <strong>{film.title}</strong> - Directed by {film.director}, Released on {film.release_date}
-            </List.Item>
-          )}
+          columns={columns}
+          rowKey="title"
+          pagination={false}
         />
       )}
     </div>
