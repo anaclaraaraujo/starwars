@@ -13,7 +13,7 @@ export function Home() {
       <h1>Welcome to Star Wars Discover</h1>
 
       <Button onClick={() => handleNavigate('/film')}>Go to Films</Button>
-      <Button onClick={() => handleNavigate('/film')}>Go to People</Button>
+      <Button onClick={() => handleNavigate('/people')}>Go to People</Button>
     </div>
   );
 }

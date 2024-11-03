@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PeopleState } from "../types/interface";
 import { fetchPeopleAsync } from "../utils/api";
 
@@ -6,19 +6,15 @@ const initialState: PeopleState = {
   people: [],
   loading: false,
   error: null,
-  currentPage: 1,
-  totalCount: 0
+  count: 0,
+  next: null,
+  previous: null
 };
 
 const peopleSlice = createSlice({
   name: 'people',
   initialState,
-  reducers: {
-    setCurrentPage(state, action: PayloadAction<number>) {
-      state.currentPage = action.payload;
-    },
-  },
-
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPeopleAsync.pending, (state) => {
@@ -28,7 +24,9 @@ const peopleSlice = createSlice({
       .addCase(fetchPeopleAsync.fulfilled, (state, action) => {
         state.loading = false;
         state.people = action.payload.results;
-        state.totalCount = action.payload.count;
+        state.count = action.payload.count;
+        state.next = action.payload.count;
+        state.previous = action.payload.count;
       })
       .addCase(fetchPeopleAsync.rejected, (state, action) => {
         state.loading = false;
@@ -37,5 +35,4 @@ const peopleSlice = createSlice({
   },
 });
 
-export const { setCurrentPage } = peopleSlice.actions;
 export default peopleSlice.reducer;
