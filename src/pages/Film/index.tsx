@@ -14,7 +14,6 @@ export function Film() {
   const [searchValue, setSearchValue] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [yearOptions, setYearOptions] = useState<string[]>([]);
-  const [setIsModalVisible] = useState(false);
   const [setSelectedFilm] = useState<any>(null);
 
   useEffect(() => {

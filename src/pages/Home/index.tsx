@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import filmsIcon from '../../assets/icons/films.png';
 import charactersIcon from '../../assets/icons/characters.png';

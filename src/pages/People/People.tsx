@@ -1,4 +1,4 @@
-import { Alert, Spin, Table, Pagination, Col, Row } from "antd";
+import { Alert, Spin, Table, Col, Row } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPeopleAsync } from "../../utils/api";
 import type { RootState, AppDispatch } from "../../redux/store";
@@ -16,7 +16,6 @@ export function People() {
   const [allPeople, setAllPeople] = useState<Person[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedType, setSelectedType] = useState<'person'>('person'); 
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
