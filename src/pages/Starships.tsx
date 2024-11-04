@@ -19,7 +19,7 @@ export function Starships() {
     dispatch(fetchStarshipsAsync());
   }, [dispatch]);
 
-  const filteredStarships = starships.filter(starship => 
+  const filteredStarships = starships.filter(starship =>
     starship.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (selectedModel ? starship.model.toLowerCase() === selectedModel.toLowerCase() : true)
   );
@@ -64,14 +64,17 @@ export function Starships() {
             rowKey="name"
             pagination={false}
           />
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={filteredStarships.length}
-            onChange={(page) => setCurrentPage(page)}
-            showSizeChanger={false}
-            showQuickJumper={false}
-          />
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={filteredStarships.length}
+              onChange={(page) => setCurrentPage(page)}
+              showSizeChanger={false}
+              showQuickJumper={false}
+            />
+          </div>
+
         </>
       )}
     </div>

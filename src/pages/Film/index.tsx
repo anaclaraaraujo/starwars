@@ -1,10 +1,11 @@
 import { Alert, Col, Row, Spin, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFilmsAsync } from "../utils/api";
-import type { RootState, AppDispatch } from "../redux/store";
+import { fetchFilmsAsync } from "../../utils/api";
+import type { RootState, AppDispatch } from "../../redux/store";
 import { useEffect, useState } from 'react';
-import { SearchInput } from "../components/SearchInput";
-import { Filter } from "../components/Filter";
+import { SearchInput } from "../../components/SearchInput";
+import { Filter } from "../../components/Filter";
+import { Layout } from "../../components/Layout";
 
 export function Film() {
   const dispatch: AppDispatch = useDispatch();
@@ -13,6 +14,8 @@ export function Film() {
   const [searchValue, setSearchValue] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [yearOptions, setYearOptions] = useState<string[]>([]);
+  const [setIsModalVisible] = useState(false);
+  const [setSelectedFilm] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +39,10 @@ export function Film() {
     setSelectedYear(value);
   };
 
+  const handleRowClick = (film: any) => {
+    setSelectedFilm(film);
+  };
+
   const filteredFilms = films.filter(film => {
     const matchesTitle = film.title.toLowerCase().includes(searchValue.toLowerCase());
     const matchesYear = selectedYear ? film.release_date.startsWith(selectedYear) : true;
@@ -47,6 +54,9 @@ export function Film() {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
+      onCell: (record: any) => ({
+        onClick: () => handleRowClick(record),
+      }),
     },
     {
       title: 'Director',
@@ -58,10 +68,10 @@ export function Film() {
       dataIndex: 'release_date',
       key: 'release_date',
     },
-  ]
+  ];
 
   return (
-    <div>
+    <Layout>
       {loading ?
         (
           <Spin spinning={loading} />
@@ -82,15 +92,17 @@ export function Film() {
                 />
               </Col>
             </Row>
-            <Table
-              bordered
-              dataSource={filteredFilms}
-              columns={columns}
-              rowKey="title"
-              pagination={false}
-            />
+            <div style={{ maxWidth: '100%' }}>
+              <Table
+                bordered
+                dataSource={filteredFilms}
+                columns={columns}
+                rowKey="title"
+                pagination={false}
+              />
+            </div>
           </>
         )}
-    </div>
+    </Layout>
   );
 }

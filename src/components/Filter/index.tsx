@@ -13,6 +13,7 @@ export function Filter({ options, selectedValue, onChange, placeholder }: Filter
       value={selectedValue}
       onChange={onChange}
       placeholder={placeholder || 'Select an option'}
+      style={{ width: '100%' }}
     >
       <Select.Option value="">All</Select.Option>
       {options.map(

@@ -1,18 +1,23 @@
 import { Alert, Spin, Table, Pagination, Col, Row } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPeopleAsync } from "../utils/api";
-import type { RootState, AppDispatch } from "../redux/store";
+import { fetchPeopleAsync } from "../../utils/api";
+import type { RootState, AppDispatch } from "../../redux/store";
 import { useEffect, useState } from 'react';
-import type { Person } from "../types/interface";
-import { Filter } from "../components/Filter";
-import { SearchInput } from "../components/SearchInput";
+import type { Person } from "../../types/interface";
+import { Filter } from "../../components/Filter";
+import { SearchInput } from "../../components/SearchInput";
+import { Layout } from "../../components/Layout";
+import { CustomPagination } from '../../style/global';
+import { PersonModal } from '../../components/PersonModal/index';
 
 export function People() {
   const dispatch: AppDispatch = useDispatch();
   const { loading, error } = useSelector((state: RootState) => state.people);
   const [allPeople, setAllPeople] = useState<Person[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
-  
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedType, setSelectedType] = useState<'person'>('person'); 
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,7 +28,7 @@ export function People() {
       const allPeopleData = await dispatch(fetchPeopleAsync()).unwrap();
       setAllPeople(allPeopleData);
     };
-    
+
     fetchData();
   }, [dispatch]);
 
@@ -44,6 +49,7 @@ export function People() {
 
   const handlePersonClick = (person: Person) => {
     setSelectedPerson(person);
+    setModalVisible(true); // Abre o modal
   };
 
   const handlePageChange = (page: number) => {
@@ -91,7 +97,7 @@ export function People() {
   ];
 
   return (
-    <div>
+    <Layout>
       {loading ? (
         <Spin spinning={loading} />
       ) : error ? (
@@ -111,15 +117,18 @@ export function People() {
               />
             </Col>
           </Row>
-          <Table
-            bordered
-            dataSource={paginatedPeople}
-            columns={columns}
-            rowKey="name"
-            pagination={false}
-          />
+          <div style={{ maxWidth: '100%' }}>
+            <Table
+              bordered
+              dataSource={paginatedPeople}
+              columns={columns}
+              rowKey="name"
+              pagination={false}
+            />
+          </div>
+
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <Pagination
+            <CustomPagination
               current={currentPage}
               pageSize={pageSize}
               total={sortedPeople.length}
@@ -128,8 +137,14 @@ export function People() {
               showQuickJumper={false}
             />
           </div>
+
+          <PersonModal
+            visible={modalVisible}
+            onClose={() => setModalVisible(false)}
+            person={selectedPerson}
+          />
         </>
       )}
-    </div>
+    </Layout>
   );
 }

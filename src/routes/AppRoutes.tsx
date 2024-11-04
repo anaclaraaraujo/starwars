@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Film } from "../pages/Film";
-import { People } from "../pages/People";
+import { People } from "../pages/People/People";
 import { Home } from "../pages/Home";
 import { Planets } from "../pages/Planets";
 import { Species } from "../pages/Species";

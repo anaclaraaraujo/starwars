@@ -3,7 +3,7 @@ import peopleReducer from './peopleSlice';
 import filmsReducer from './filmsSlice';
 import { planetsReducer } from "./planetsSlice";
 import { starshipsReducer } from "./starshipsSlice";
-import { speciesReducer } from "./speciesSlice copy";
+import { speciesReducer } from "./speciesSlice";
 import { vehiclesReducer } from "./vehiclesSlice";
 
 export const store = configureStore({

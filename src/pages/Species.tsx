@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import type { Species } from "../types/interface";
 import { Filter } from "../components/Filter";
 import { SearchInput } from "../components/SearchInput";
+import { Layout } from "../components/Layout";
 
 export function Species() {
   const dispatch: AppDispatch = useDispatch();
@@ -21,7 +22,7 @@ export function Species() {
 
   const classifications = Array.from(new Set(species.map(s => s.classification)));
 
-  const filteredSpecies = species.filter(s => 
+  const filteredSpecies = species.filter(s =>
     s.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (selectedClassification ? s.classification === selectedClassification : true)
   );
@@ -43,7 +44,7 @@ export function Species() {
       ) : error ? (
         <Alert message="Error" description={error} type="error" showIcon />
       ) : (
-        <>
+        <Layout>
           <Row gutter={16} style={{ marginBottom: '16px' }}>
             <Col span={12}>
               <SearchInput value={searchTerm} onChange={(value) => setSearchTerm(value)} />
@@ -64,15 +65,17 @@ export function Species() {
             rowKey="name"
             pagination={false}
           />
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={filteredSpecies.length}
-            onChange={(page) => setCurrentPage(page)}
-            showSizeChanger={false}
-            showQuickJumper={false}
-          />
-        </>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={filteredSpecies.length}
+              onChange={(page) => setCurrentPage(page)}
+              showSizeChanger={false}
+              showQuickJumper={false}
+            />
+          </div>
+        </Layout>
       )}
     </div>
   );

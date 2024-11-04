@@ -19,7 +19,7 @@ export function Vehicles() {
     dispatch(fetchVehiclesAsync());
   }, [dispatch]);
 
-  const filteredVehicles = vehicles.filter(vehicle => 
+  const filteredVehicles = vehicles.filter(vehicle =>
     vehicle.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (selectedVehicleClass ? vehicle.vehicle_class.toLowerCase() === selectedVehicleClass.toLowerCase() : true)
   );
@@ -67,14 +67,17 @@ export function Vehicles() {
             rowKey="name"
             pagination={false}
           />
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={filteredVehicles.length}
-            onChange={(page) => setCurrentPage(page)}
-            showSizeChanger={false}
-            showQuickJumper={false}
-          />
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={filteredVehicles.length}
+              onChange={(page) => setCurrentPage(page)}
+              showSizeChanger={false}
+              showQuickJumper={false}
+            />
+          </div>
+
         </>
       )}
     </div>

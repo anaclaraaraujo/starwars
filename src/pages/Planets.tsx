@@ -4,6 +4,7 @@ import { fetchPlanetsAsync } from "../utils/api";
 import type { RootState, AppDispatch } from "../redux/store";
 import { useEffect, useState } from 'react';
 import { SearchInput } from "../components/SearchInput";
+import { Layout } from "../components/Layout";
 
 const { Option } = Select;
 
@@ -22,7 +23,7 @@ export function Planets() {
   const filteredPlanets = planets
     .filter(planet => planet.name.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter(planet => {
-      if (!selectedClimate) return true; 
+      if (!selectedClimate) return true;
       return planet.climate.toLowerCase() === selectedClimate.toLowerCase();
     });
 
@@ -39,7 +40,7 @@ export function Planets() {
   const uniqueClimates = Array.from(new Set(planets.map(planet => planet.climate)));
 
   return (
-    <div>
+    <Layout>
       {loading ? (
         <Spin spinning={loading} />
       ) : error ? (
@@ -65,23 +66,29 @@ export function Planets() {
               </Select>
             </Col>
           </Row>
-          <Table
-            bordered
-            dataSource={paginatedPlanets}
-            columns={columns}
-            rowKey="name"
-            pagination={false}
-          />
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={filteredPlanets.length}
-            onChange={(page) => setCurrentPage(page)}
-            showSizeChanger={false}
-            showQuickJumper={false}
-          />
+
+          <div style={{maxWidth: '100%' }}>
+            <Table
+              bordered
+              dataSource={paginatedPlanets}
+              columns={columns}
+              rowKey="name"
+              pagination={false}
+            />
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={filteredPlanets.length}
+              onChange={(page) => setCurrentPage(page)}
+              showSizeChanger={false}
+              showQuickJumper={false}
+            />
+          </div>
         </>
       )}
-    </div>
+    </Layout>
   );
 }

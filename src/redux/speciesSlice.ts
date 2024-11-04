@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { SpeciesState } from '../types/interface';
 import { fetchSpeciesAsync } from '../utils/api';
-
 const initialState: SpeciesState = {
   species: [],
   loading: false,
@@ -10,7 +9,6 @@ const initialState: SpeciesState = {
   next: null,
   previous: null
 };
-
 const speciesSlice = createSlice({
   name: 'species',
   initialState,
@@ -31,5 +29,4 @@ const speciesSlice = createSlice({
       });
   },
 });
-
 export const { reducer: speciesReducer } = speciesSlice;

@@ -4,6 +4,11 @@ export interface Person {
   mass: string;
   gender: string;
   homeworld: string;
+  hair_color: string;
+  skin_color: string;
+  eye_color: string;
+  birth_year: string;
+  films: string[];
 }
 
 export interface PeopleState {
