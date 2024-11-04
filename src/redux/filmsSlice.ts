@@ -19,7 +19,7 @@ const filmsSlice = createSlice({
     })
     .addCase(fetchFilmsAsync.fulfilled, (state, action) => {
       state.loading = false;
-      state.films = action.payload.results;
+      state.films = action.payload;
     })
     .addCase(fetchFilmsAsync.rejected, (state, action) => {
       state.loading = false;

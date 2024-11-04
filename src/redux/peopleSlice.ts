@@ -23,10 +23,7 @@ const peopleSlice = createSlice({
       })
       .addCase(fetchPeopleAsync.fulfilled, (state, action) => {
         state.loading = false;
-        state.people = action.payload.results;
-        state.count = action.payload.count;
-        state.next = action.payload.count;
-        state.previous = action.payload.count;
+        state.people = action.payload;
       })
       .addCase(fetchPeopleAsync.rejected, (state, action) => {
         state.loading = false;

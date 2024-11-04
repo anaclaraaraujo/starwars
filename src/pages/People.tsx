@@ -9,7 +9,8 @@ import { SearchInput } from "../components/SearchInput";
 
 export function People() {
   const dispatch: AppDispatch = useDispatch();
-  const { people, loading, error } = useSelector((state: RootState) => state.people);
+  const { loading, error } = useSelector((state: RootState) => state.people);
+  const [allPeople, setAllPeople] = useState<Person[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
   
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,17 +18,21 @@ export function People() {
   const [currentPage, setCurrentPage] = useState(1);
   const [genderOptions, setGenderOptions] = useState<string[]>([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const allPeopleData = await dispatch(fetchPeopleAsync()).unwrap();
+      setAllPeople(allPeopleData);
+    };
+    
+    fetchData();
+  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchPeopleAsync(currentPage));
-  }, [dispatch, currentPage]);
-
-  useEffect(() => {
-    if (people.length > 0) {
-      const genders = Array.from(new Set(people.map(person => person.gender))).filter(g => g);
+    if (allPeople.length > 0) {
+      const genders = Array.from(new Set(allPeople.map(person => person.gender))).filter(g => g);
       setGenderOptions(genders);
     }
-  }, [people]);
+  }, [allPeople]);
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
@@ -37,7 +42,6 @@ export function People() {
     setSelectedGender(value);
   };
 
-
   const handlePersonClick = (person: Person) => {
     setSelectedPerson(person);
   };
@@ -46,12 +50,17 @@ export function People() {
     setCurrentPage(page);
   };
 
-
-  const filteredPeople = people.filter(person => {
+  const filteredPeople = allPeople.filter(person => {
     const matchesName = person.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesGender = selectedGender ? person.gender === selectedGender : true;
     return matchesName && matchesGender;
   });
+
+  const sortedPeople = filteredPeople.sort((a, b) => a.name.localeCompare(b.name));
+
+  const pageSize = 10;
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedPeople = sortedPeople.slice(startIndex, startIndex + pageSize);
 
   const columns = [
     {
@@ -104,7 +113,7 @@ export function People() {
           </Row>
           <Table
             bordered
-            dataSource={filteredPeople}
+            dataSource={paginatedPeople}
             columns={columns}
             rowKey="name"
             pagination={false}
@@ -112,8 +121,8 @@ export function People() {
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
             <Pagination
               current={currentPage}
-              pageSize={10}
-              total={82}
+              pageSize={pageSize}
+              total={sortedPeople.length}
               onChange={handlePageChange}
               showSizeChanger={false}
               showQuickJumper={false}
