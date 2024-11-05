@@ -99,7 +99,7 @@ src
      ```
   3. Rode o projeto em ambiente de desenvolvimento:
      ```bash
-     npm start
+     npm run dev
      ```
 - **Configuração para Deploy na AWS**: Para fazer o deploy na AWS usando CloudFront, configure um bucket S3 para armazenar os arquivos estáticos da aplicação, configure as permissões adequadas, e use o CloudFront para distribuir o conteúdo.
 
