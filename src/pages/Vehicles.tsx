@@ -1,10 +1,12 @@
-import { Alert, Spin, Table, Pagination, Row, Col } from "antd";
+import { Alert, Spin, Table, Row, Col } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVehiclesAsync } from "../utils/api";
 import type { RootState, AppDispatch } from "../redux/store";
 import { useEffect, useState } from 'react';
 import { Filter } from "../components/Filter";
 import { SearchInput } from "../components/SearchInput";
+import { Layout } from "../components/Layout";
+import { CustomPagination } from "../style/global";
 
 export function Vehicles() {
   const dispatch: AppDispatch = useDispatch();
@@ -40,7 +42,7 @@ export function Vehicles() {
   }));
 
   return (
-    <div>
+    <Layout>
       {loading ? (
         <Spin spinning={loading} />
       ) : error ? (
@@ -68,7 +70,7 @@ export function Vehicles() {
             pagination={false}
           />
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <Pagination
+            <CustomPagination
               current={currentPage}
               pageSize={pageSize}
               total={filteredVehicles.length}
@@ -80,6 +82,6 @@ export function Vehicles() {
 
         </>
       )}
-    </div>
+    </Layout>
   );
 }

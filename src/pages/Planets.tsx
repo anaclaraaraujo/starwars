@@ -1,10 +1,11 @@
-import { Alert, Spin, Table, Pagination, Col, Row, Select } from "antd";
+import { Alert, Spin, Table, Col, Row, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPlanetsAsync } from "../utils/api";
 import type { RootState, AppDispatch } from "../redux/store";
 import { useEffect, useState } from 'react';
 import { SearchInput } from "../components/SearchInput";
 import { Layout } from "../components/Layout";
+import { CustomPagination } from "../style/global";
 
 const { Option } = Select;
 
@@ -78,7 +79,7 @@ export function Planets() {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
-            <Pagination
+            <CustomPagination
               current={currentPage}
               pageSize={pageSize}
               total={filteredPlanets.length}

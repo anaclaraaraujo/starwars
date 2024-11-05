@@ -1,10 +1,12 @@
-import { Alert, Spin, Table, Pagination, Row, Col } from "antd";
+import { Alert, Spin, Table, Row, Col } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStarshipsAsync } from "../utils/api";
 import type { RootState, AppDispatch } from "../redux/store";
 import { useEffect, useState } from 'react';
 import { Filter } from "../components/Filter";
 import { SearchInput } from "../components/SearchInput";
+import { Layout } from "../components/Layout";
+import { CustomPagination } from "../style/global";
 
 export function Starships() {
   const dispatch: AppDispatch = useDispatch();
@@ -37,7 +39,7 @@ export function Starships() {
   const modelOptions = [...new Set(starships.map(starship => starship.model))].map(model => ({ value: model, label: model }));
 
   return (
-    <div>
+    <Layout>
       {loading ? (
         <Spin spinning={loading} />
       ) : error ? (
@@ -65,7 +67,7 @@ export function Starships() {
             pagination={false}
           />
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <Pagination
+            <CustomPagination
               current={currentPage}
               pageSize={pageSize}
               total={filteredStarships.length}
@@ -77,6 +79,6 @@ export function Starships() {
 
         </>
       )}
-    </div>
+    </Layout>
   );
 }
